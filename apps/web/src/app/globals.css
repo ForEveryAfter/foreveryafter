@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 26, 43, 61; /* Navy */
+  --background-rgb: 247, 245, 240; /* Off-white cream */
+  --primary-sage: 74, 94, 82;
+  --sage-light: 232, 237, 234;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

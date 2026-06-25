@@ -1,0 +1,24 @@
+{
+  "name": "legacybridge",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "latest",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "autoprefixer": "^10.4.19"
+  },
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": ">=18"
+  }
+}

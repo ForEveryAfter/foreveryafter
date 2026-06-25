@@ -1,0 +1,55 @@
+-- CHAPTERS
+create table chapters (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  "order" int not null,
+  created_at timestamptz default now()
+);
+
+alter table chapters enable row level security;
+alter table chapters force row level security;
+create policy "Chapters are viewable by everyone" on chapters for select using (true);
+
+-- QUESTIONS
+create table questions (
+  id uuid primary key default uuid_generate_v4(),
+  chapter_id uuid not null references chapters(id) on delete cascade,
+  title text not null,
+  slug text not null unique,
+  prompt_audio_slug text,
+  type text not null check (type in ('core', 'go_deeper')),
+  "order" int not null,
+  created_at timestamptz default now()
+);
+
+alter table questions enable row level security;
+alter table questions force row level security;
+create policy "Questions are viewable by everyone" on questions for select using (true);
+
+-- USER_QUESTION_RESPONSES
+create table user_question_responses (
+  id uuid primary key default uuid_generate_v4(),
+  parent_guid uuid not null references profiles(user_id) on delete cascade,
+  question_id uuid not null references questions(id) on delete cascade,
+  audio_path text,
+  transcript_path text,
+  recorded_at timestamptz default now(),
+  unique(parent_guid, question_id)
+);
+
+alter table user_question_responses enable row level security;
+create policy "Users can manage their own responses" on user_question_responses
+  for all using (auth.uid() = parent_guid);
+
+-- USER_FLAGS
+create table user_flags (
+  id uuid primary key default uuid_generate_v4(),
+  user_guid uuid not null references profiles(user_id) on delete cascade,
+  flag text not null,
+  created_at timestamptz default now(),
+  unique(user_guid, flag)
+);
+
+alter table user_flags enable row level security;
+create policy "Users can manage their own flags" on user_flags
+  for all using (auth.uid() = user_guid);

@@ -1,0 +1,7 @@
+{
+  "_comment": "Without this, nodemon only watches .js/.json by default — TypeScript edits to apps/api/src/**/*.ts do NOT trigger a reload, and the API silently serves stale code while the dev believes hot-reload is working. (See /Users/myronlee/Desktop/ClaudeCode/LegacyBridge for the bug story this caused.)",
+  "watch": ["src"],
+  "ext": "ts,js,json",
+  "ignore": ["src/**/*.test.ts", "node_modules"],
+  "exec": "ts-node src/index.ts"
+}

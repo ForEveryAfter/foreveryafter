@@ -1,0 +1,169 @@
+-- Enable uuid-ossp extension
+create extension if not exists "uuid-ossp";
+
+-- PROFILES
+create table profiles (
+  user_id uuid primary key references auth.users on delete cascade,
+  role text not null check (role in ('child', 'parent')),
+  first_name text,
+  last_name text,
+  onboarding_completed_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique(user_id)
+);
+
+alter table profiles enable row level security;
+
+-- RELATIONSHIPS
+create table relationships (
+  id uuid primary key default uuid_generate_v4(),
+  child_user_id uuid not null references profiles(user_id),
+  parent_user_id uuid not null references profiles(user_id),
+  status text not null check (status in ('pending', 'active', 'revoked')),
+  invited_at timestamptz default now(),
+  accepted_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table relationships enable row level security;
+
+-- GUIDES
+create table guides (
+  id uuid primary key default uuid_generate_v4(),
+  parent_user_id uuid not null unique references profiles(user_id),
+  is_locked bool default true,
+  lock_mode text not null check (lock_mode in ('checkin', 'manual', 'open')) default 'checkin',
+  completion_percentage int default 0,
+  completed_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table guides enable row level security;
+
+-- TILES
+create table tiles (
+  id uuid primary key default uuid_generate_v4(),
+  guide_id uuid not null references guides(id) on delete cascade,
+  tile_type text not null check (tile_type in ('life_story', 'accounts', 'health', 'wills', 'final_wishes', 'letters', 'occasions')),
+  status text not null check (status in ('not_started', 'in_progress', 'complete')),
+  completion_percentage int default 0,
+  last_accessed_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table tiles enable row level security;
+
+-- INTERVIEW_SESSIONS
+create table interview_sessions (
+  id uuid primary key default uuid_generate_v4(),
+  tile_id uuid not null references tiles(id) on delete cascade,
+  guide_id uuid not null references guides(id) on delete cascade,
+  session_number int,
+  transcript jsonb default '[]',
+  audio_storage_path text,
+  summary text,
+  started_at timestamptz default now(),
+  ended_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table interview_sessions enable row level security;
+
+-- MESSAGES
+create table messages (
+  id uuid primary key default uuid_generate_v4(),
+  session_id uuid not null references interview_sessions(id) on delete cascade,
+  role text not null check (role in ('user', 'assistant')),
+  content text not null,
+  was_voice_input bool default false,
+  created_at timestamptz default now()
+);
+
+alter table messages enable row level security;
+
+-- ACCESS_EVENTS
+create table access_events (
+  id uuid primary key default uuid_generate_v4(),
+  guide_id uuid not null references guides(id) on delete cascade,
+  triggered_by_user_id uuid references profiles(user_id),
+  event_type text not null check (event_type in (
+    'checkin_sent', 'checkin_responded', 'checkin_missed', 
+    'verification_requested', 'verification_confirmed', 
+    'verification_rejected', 'guide_unlocked', 'guide_relocked'
+  )),
+  metadata jsonb,
+  created_at timestamptz default now()
+);
+
+alter table access_events enable row level security;
+
+-- CHECK_IN_SETTINGS
+create table check_in_settings (
+  id uuid primary key default uuid_generate_v4(),
+  guide_id uuid not null unique references guides(id) on delete cascade,
+  interval_months int not null check (interval_months in (3, 6, 12)) default 6,
+  last_sent_at timestamptz,
+  next_due_at timestamptz,
+  parent_response_at timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table check_in_settings enable row level security;
+
+-- SUBSCRIPTIONS
+create table subscriptions (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references profiles(user_id),
+  plan_type text not null check (plan_type in ('annual', 'five_year', 'ten_year', 'archive')),
+  status text not null,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table subscriptions enable row level security;
+
+-- OCCASIONS
+create table occasions (
+  id uuid primary key default uuid_generate_v4(),
+  guide_id uuid not null references guides(id) on delete cascade,
+  title text not null,
+  date timestamptz not null,
+  occasion_type text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table occasions enable row level security;
+
+-- VAULT_ITEMS
+create table vault_items (
+  id uuid primary key default uuid_generate_v4(),
+  guide_id uuid not null references guides(id) on delete cascade,
+  tile_id uuid references tiles(id),
+  title text not null,
+  file_path text,
+  file_type text,
+  metadata jsonb,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table vault_items enable row level security;
+
+-- NOTIFICATIONS
+create table notifications (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references profiles(user_id),
+  title text not null,
+  content text not null,
+  is_read bool default false,
+  created_at timestamptz default now()
+);
+
+alter table notifications enable row level security;
