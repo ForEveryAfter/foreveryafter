@@ -64,8 +64,8 @@ export default function OnboardingLayout({
           </div>
 
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="LegacyBridge" className="w-6 h-6 object-contain grayscale opacity-50" />
-            <span className="font-bold text-sm tracking-tight opacity-40">LegacyBridge</span>
+            {/* Logo image contains the wordmark — no adjacent text span needed. */}
+            <img src="/logo.png" alt="ForEveryAfter" className="h-6 w-auto object-contain grayscale opacity-50" />
           </div>
         </div>
       </header>

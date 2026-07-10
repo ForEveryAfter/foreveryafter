@@ -37,13 +37,13 @@ export function releasedEmailForRecipient(
   ctx: ReleaseExecutedCtx
 ): Omit<EmailPayload, 'to'> {
   return {
-    subject: `${ctx.guideOwnerName}'s LegacyBridge guide is now available to you`,
+    subject: `${ctx.guideOwnerName}'s ForEveryAfter guide is now available to you`,
     text:
-      `${ctx.guideOwnerName}'s LegacyBridge guide has been released and is now available to view.\n\n` +
+      `${ctx.guideOwnerName}'s ForEveryAfter guide has been released and is now available to view.\n\n` +
       `${ctx.guideUrl}\n\n` +
       `Take whatever time you need with it.`,
     html:
-      `<p><strong>${ctx.guideOwnerName}</strong>'s LegacyBridge guide has been released and is now available to view.</p>` +
+      `<p><strong>${ctx.guideOwnerName}</strong>'s ForEveryAfter guide has been released and is now available to view.</p>` +
       `<p><a href="${ctx.guideUrl}">Open the guide</a></p>` +
       `<p>Take whatever time you need with it.</p>`,
   };
@@ -52,7 +52,7 @@ export function releasedEmailForRecipient(
 export function releasedInAppForRecipient(ctx: ReleaseExecutedCtx): InAppPayload {
   return {
     title: `${ctx.guideOwnerName}'s guide is available`,
-    body: `${ctx.guideOwnerName}'s LegacyBridge guide has been released and is now available to you.`,
+    body: `${ctx.guideOwnerName}'s ForEveryAfter guide has been released and is now available to you.`,
     href: ctx.guideUrl,
   };
 }
@@ -62,12 +62,12 @@ export function releasedEmailForOtherRep(
   ctx: ReleaseExecutedCtx
 ): Omit<EmailPayload, 'to'> {
   return {
-    subject: `${ctx.guideOwnerName}'s LegacyBridge guide has been released`,
+    subject: `${ctx.guideOwnerName}'s ForEveryAfter guide has been released`,
     text:
-      `${ctx.guideOwnerName}'s LegacyBridge guide has been released to the designated recipients.\n\n` +
+      `${ctx.guideOwnerName}'s ForEveryAfter guide has been released to the designated recipients.\n\n` +
       `No further action is needed from you.`,
     html:
-      `<p><strong>${ctx.guideOwnerName}</strong>'s LegacyBridge guide has been released to the designated recipients.</p>` +
+      `<p><strong>${ctx.guideOwnerName}</strong>'s ForEveryAfter guide has been released to the designated recipients.</p>` +
       `<p>No further action is needed from you.</p>`,
   };
 }
@@ -90,14 +90,14 @@ export function releasedEmailForSubscriptionOwner(
     ? `A prorated refund of ${refundDollars} for the unused portion of your subscription has been issued to the card on file.\n\n`
     : `The remaining time on the current term was under the refund threshold, so no refund was issued.\n\n`;
   return {
-    subject: 'Your LegacyBridge guide has been released',
+    subject: 'Your ForEveryAfter guide has been released',
     text:
-      `Your LegacyBridge guide has been released.\n\n` +
+      `Your ForEveryAfter guide has been released.\n\n` +
       `${refundLine}` +
       `Your subscription has dropped to the storage tier ($5/year) so the guide stays available to the designated recipients.\n\n` +
       `You can review billing at any time: ${ctx.paymentsUrl}`,
     html:
-      `<p>Your <strong>LegacyBridge</strong> guide has been released.</p>` +
+      `<p>Your <strong>ForEveryAfter</strong> guide has been released.</p>` +
       `<p>${refundLine.replace(/\n\n/g, '')}</p>` +
       `<p>Your subscription has dropped to the <strong>storage tier ($5/year)</strong> so the guide stays available to the designated recipients.</p>` +
       `<p><a href="${ctx.paymentsUrl}">Review billing</a></p>`,
@@ -113,12 +113,12 @@ export function releaseRequestedEmailForGuideOwner(
   ctx: ReleaseRequestedCtx
 ): Omit<EmailPayload, 'to'> {
   return {
-    subject: 'A release has been requested for your LegacyBridge guide',
+    subject: 'A release has been requested for your ForEveryAfter guide',
     text:
-      `A release has been requested for your LegacyBridge guide. Unless canceled, the release will execute at ${friendlyDateTime(ctx.executesAtIso)}.\n\n` +
+      `A release has been requested for your ForEveryAfter guide. Unless canceled, the release will execute at ${friendlyDateTime(ctx.executesAtIso)}.\n\n` +
       `If this is an error, you can cancel here: ${ctx.cancelUrl}`,
     html:
-      `<p>A release has been requested for your <strong>LegacyBridge</strong> guide.</p>` +
+      `<p>A release has been requested for your <strong>ForEveryAfter</strong> guide.</p>` +
       `<p>Unless canceled, the release will execute at <strong>${friendlyDateTime(ctx.executesAtIso)}</strong>.</p>` +
       `<p>If this is an error, you can <a href="${ctx.cancelUrl}">cancel here</a>.</p>`,
   };
@@ -141,9 +141,9 @@ export function releaseRequestedEmailForOtherRep(
   return {
     subject: `A release has been requested for ${ctx.guideOwnerName}'s guide`,
     text:
-      `A release has been requested for ${ctx.guideOwnerName}'s LegacyBridge guide. The release will execute at ${friendlyDateTime(ctx.executesAtIso)} unless the guide owner cancels.`,
+      `A release has been requested for ${ctx.guideOwnerName}'s ForEveryAfter guide. The release will execute at ${friendlyDateTime(ctx.executesAtIso)} unless the guide owner cancels.`,
     html:
-      `<p>A release has been requested for <strong>${ctx.guideOwnerName}</strong>'s LegacyBridge guide.</p>` +
+      `<p>A release has been requested for <strong>${ctx.guideOwnerName}</strong>'s ForEveryAfter guide.</p>` +
       `<p>The release will execute at <strong>${friendlyDateTime(ctx.executesAtIso)}</strong> unless the guide owner cancels.</p>`,
   };
 }

@@ -99,14 +99,14 @@ export function sendSubscriptionCancelledEmail({ to, endDate }: SubscriptionCanc
     day: 'numeric',
   });
   const text =
-    `Your LegacyBridge subscription has been cancelled — it won't auto-renew.\n\n` +
+    `Your ForEveryAfter subscription has been cancelled — it won't auto-renew.\n\n` +
     `Your guide stays accessible until ${friendly}. After that date, the guide and its data will no longer be available.`;
   const html =
-    `<p>Your <strong>LegacyBridge</strong> subscription has been cancelled — it won't auto-renew.</p>` +
+    `<p>Your <strong>ForEveryAfter</strong> subscription has been cancelled — it won't auto-renew.</p>` +
     `<p>Your guide stays accessible until <strong>${friendly}</strong>. After that date, the guide and its data will no longer be available.</p>`;
   return sendEmail({
     to,
-    subject: 'Your LegacyBridge subscription has been cancelled',
+    subject: 'Your ForEveryAfter subscription has been cancelled',
     text,
     html,
   });

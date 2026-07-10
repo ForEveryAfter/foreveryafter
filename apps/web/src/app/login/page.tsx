@@ -42,14 +42,16 @@ function LoginContent() {
     <div className="min-h-screen bg-[#FAFAF7] font-inter text-navy">
       <header className="px-6 py-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <img src="/logo.png" alt="LegacyBridge" className="w-10 h-10 object-contain" />
-          <span className="font-bold text-xl tracking-tight">LegacyBridge</span>
+          {/* Logo image contains the wordmark — no adjacent text span needed.
+              `h-10 w-auto` preserves aspect ratio instead of squashing the
+              lockup into a square. */}
+          <img src="/logo.png" alt="ForEveryAfter" className="h-10 w-auto object-contain" />
         </Link>
       </header>
 
       <main className="max-w-md mx-auto px-6 py-12 md:py-20 flex flex-col items-center text-center">
         <h1 className="font-playfair text-4xl font-black mb-3">Welcome back</h1>
-        <p className="text-zinc-500 text-lg mb-10">Sign in to your LegacyBridge account.</p>
+        <p className="text-zinc-500 text-lg mb-10">Sign in to your ForEveryAfter account.</p>
 
         <div className="bg-white w-full p-8 md:p-10 rounded-[32px] border border-zinc-100 shadow-sm space-y-4">
           {errorMessage && (

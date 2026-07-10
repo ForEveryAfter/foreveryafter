@@ -66,14 +66,14 @@ function InvitePreviewContent() {
     // Log calls to console as per spec
     await sendEmail(
       state.parent1.email, 
-      "I'm starting a LegacyBridge for us", 
+      "I'm starting a ForEveryAfter for us", 
       state.personalNotes.parent1
     );
 
     if (state.parent2.active) {
       await sendEmail(
         state.parent2.email, 
-        "I'm starting a LegacyBridge for us", 
+        "I'm starting a ForEveryAfter for us", 
         state.personalNotes.parent2
       );
     }
@@ -138,7 +138,7 @@ function InvitePreviewContent() {
 
             <div className="space-y-6">
               <p>
-                I'm starting a <span className="font-bold">LegacyBridge</span> for us.
+                I'm starting a <span className="font-bold">ForEveryAfter</span> for us.
               </p>
               
               <p className="bg-amber-50/50 p-6 rounded-2xl border border-amber-100 italic relative">
@@ -159,8 +159,10 @@ function InvitePreviewContent() {
               <div>
                 <p className="text-xs text-zinc-400 mb-1">Sent via</p>
                 <div className="flex items-center gap-2">
-                  <img src="/logo.png" alt="LB" className="w-5 h-5 grayscale opacity-20" />
-                  <span className="text-sm font-black opacity-20">LegacyBridge</span>
+                  {/* Logo image contains the wordmark — no adjacent text span
+                      needed. Bumped from 5px to 6px height because at 5px the
+                      wordmark inside the image was pixel soup. */}
+                  <img src="/logo.png" alt="ForEveryAfter" className="h-6 w-auto object-contain grayscale opacity-20" />
                 </div>
               </div>
               <div className="flex flex-col items-end">

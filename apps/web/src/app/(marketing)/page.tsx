@@ -8,8 +8,8 @@ export default function MarketingPage() {
       {/* Navigation Header */}
       <header className="px-6 py-6 md:px-12 lg:px-24 flex items-center justify-between sticky top-0 bg-background/80 backdrop-blur-md z-50">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="LegacyBridge Logo" className="w-10 h-10 object-contain" />
-          <span className="font-bold text-navy text-xl tracking-tight">LegacyBridge</span>
+          {/* Logo image contains the wordmark — no adjacent text span needed. */}
+          <img src="/logo.png" alt="ForEveryAfter" className="h-10 w-auto object-contain" />
         </div>
         
         <nav className="hidden md:flex items-center gap-8 text-navy font-medium opacity-80">
@@ -119,7 +119,7 @@ export default function MarketingPage() {
             <div className="text-center mt-8 space-y-2">
               <h3 className="font-playfair text-2xl text-navy font-bold">Watch how it works</h3>
               <p className="text-zinc-500 max-w-lg mx-auto text-sm">
-                A brief overview of how LegacyBridge helps your family preserve what matters most.
+                A brief overview of how ForEveryAfter helps your family preserve what matters most.
               </p>
             </div>
           </div>
@@ -373,13 +373,13 @@ export default function MarketingPage() {
         {/* Footer */}
         <footer className="py-12 px-6 md:px-12 lg:px-24 border-t border-zinc-100 text-zinc-400 text-sm flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="LegacyBridge" className="w-6 h-6 grayscale opacity-50" />
-            <span className="font-bold text-navy/40">LegacyBridge</span>
+            {/* Logo image contains the wordmark — no adjacent text span needed. */}
+            <img src="/logo.png" alt="ForEveryAfter" className="h-6 w-auto object-contain grayscale opacity-50" />
           </div>
           <div className="flex gap-8">
             <Link href="/privacy" className="hover:text-navy transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-navy transition-colors">Terms of Service</Link>
-            <span>&copy; {new Date().getFullYear()} LegacyBridge</span>
+            <span>&copy; {new Date().getFullYear()} ForEveryAfter</span>
           </div>
         </footer>
       </main>

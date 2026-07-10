@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
   Clock, Heart, FileText, AlertCircle, ChevronRight,
-  CreditCard, AlertTriangle, X, Loader2, Check, Info, Users, Tag, Lock,
+  CreditCard, AlertTriangle, X, Loader2, Check, Info, Users, Tag, Lock, Play,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 import {
@@ -18,10 +18,21 @@ import {
   declineTransfer,
   cancelTakeoverPayment,
   getTakeoverPreview,
+  fetchWithAuth,
   type OutgoingTransfer,
   type IncomingTransfer,
   type TakeoverPreview,
 } from '@/lib/api';
+import IntroVideoOverlay from '@/components/dashboard/IntroVideoOverlay';
+
+// First-play intro video for Trusted Representatives. Sits at the top level of
+// apps/web/public/ (not under /parent/) per the asset drop — keep this path in
+// sync if the file is renamed or moved. The flag is per-user; the overlay
+// only fires for users who actually carry a 'trusted_rep' role on at least
+// one parent guide (immediate-family-only links never see it).
+const TRUSTED_REP_INTRO_VIDEO =
+  '/The Role of a Trusted Representative - LegacyBridge_1080p_caption.mp4';
+const TRUSTED_REP_INTRO_FLAG = 'trusted_rep_intro_dismissed';
 import {
   getCheckInStatus,
   relativeTime,
@@ -942,6 +953,76 @@ export default function ChildDashboard() {
   // calls startTakeoverRequest with the chosen plan and redirects to Stripe itself.
   const [takeoverOpen, setTakeoverOpen] = useState<{ guideId: string; parentFirstName: string } | null>(null);
 
+  // ── TI intro video ────────────────────────────────────────────────────────
+  // First-play overlay for users acting as a Trusted Representative. Two
+  // conditions must hold to auto-show:
+  //   (1) the user has at least one relationship with the 'trusted_rep' role,
+  //   (2) the dismissal flag isn't already set on the server.
+  // Both signals arrive asynchronously, so we track them independently and
+  // derive `showIntro` once both are known. The replay button below uses the
+  // same setter; it bypasses the flag check entirely, so dismissed users can
+  // still re-watch on demand.
+  const [showIntro, setShowIntro] = useState(false);
+  const [introFlagChecked, setIntroFlagChecked] = useState(false);
+  const [introDismissedOnServer, setIntroDismissedOnServer] = useState(false);
+
+  // Whether the logged-in user is a TR for ANY parent guide. Drives the replay
+  // button visibility — non-TI family members never see it.
+  const isAnyTI = relationships.some((r) => r.roles.includes('trusted_rep'));
+
+  // Check the dismissal flag once on mount (after userId is available). A
+  // failed read leaves the flag treated as "dismissed" — better to skip the
+  // video than to replay it after a previous dismissal we couldn't read.
+  useEffect(() => {
+    if (!user?.userId) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const flags = await fetchWithAuth('/interview/flags', user.userId);
+        const dismissed = Array.isArray(flags) && flags.some(
+          (f: any) => f.flag === TRUSTED_REP_INTRO_FLAG
+        );
+        if (!cancelled) {
+          setIntroDismissedOnServer(dismissed);
+          setIntroFlagChecked(true);
+        }
+      } catch (err) {
+        console.error('Failed to check TR intro flag:', err);
+        if (!cancelled) {
+          setIntroDismissedOnServer(true); // treat as dismissed on error
+          setIntroFlagChecked(true);
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [user?.userId]);
+
+  // Auto-surface the overlay the first time we know both (a) the user is a TI
+  // and (b) the flag isn't dismissed. Gated on introFlagChecked so we don't
+  // briefly flash the overlay before the flag read returns.
+  useEffect(() => {
+    if (!introFlagChecked || introDismissedOnServer) return;
+    if (isAnyTI) setShowIntro(true);
+  }, [introFlagChecked, introDismissedOnServer, isAnyTI]);
+
+  // Persist the dismissal so the video doesn't auto-fire on the next visit.
+  // Optimistically close first; the flag write is best-effort. We also flip
+  // `introDismissedOnServer` so the auto-surface effect can't immediately
+  // re-open the overlay before the server round-trip lands.
+  const handleDismissIntro = async () => {
+    setShowIntro(false);
+    setIntroDismissedOnServer(true);
+    if (!user?.userId) return;
+    try {
+      await fetchWithAuth('/interview/flags', user.userId, {
+        method: 'POST',
+        body: JSON.stringify({ flag: TRUSTED_REP_INTRO_FLAG }),
+      });
+    } catch (err) {
+      console.error('Failed to save TR intro flag:', err);
+    }
+  };
+
   const refreshTransfers = useCallback(async () => {
     const [out, inc] = await Promise.all([
       getOutgoingTransfers().catch(() => [] as OutgoingTransfer[]),
@@ -1059,11 +1140,35 @@ export default function ChildDashboard() {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12 space-y-12 font-inter text-navy">
-      <div className="space-y-2">
-        <h1 className="font-playfair text-3xl md:text-4xl font-black">
-          Welcome back, {firstName}.
-        </h1>
-        <p className="text-zinc-500">Here&apos;s what needs your attention.</p>
+      {/* First-visit intro video for TRs — overlays the page until dismissed.
+          The dismissal is persisted via /interview/flags so it never auto-fires
+          again for the same user. Replay is via the button below. */}
+      {showIntro && (
+        <IntroVideoOverlay
+          videoUrl={TRUSTED_REP_INTRO_VIDEO}
+          onDismiss={handleDismissIntro}
+        />
+      )}
+      {/* Header — flex row so the "Watch intro" replay button (only shown for
+          users who are actually a TR for at least one parent) sits at the
+          top-right. Non-TI family members never see the button. */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="font-playfair text-3xl md:text-4xl font-black">
+            Welcome back, {firstName}.
+          </h1>
+          <p className="text-zinc-500">Here&apos;s what needs your attention.</p>
+        </div>
+        {isAnyTI && (
+          <button
+            type="button"
+            onClick={() => setShowIntro(true)}
+            className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-navy border border-zinc-200 hover:border-zinc-300 bg-white px-3 py-1.5 rounded-full transition-colors"
+          >
+            <Play className="w-3 h-3 fill-current" />
+            Watch intro
+          </button>
+        )}
       </div>
 
       {banner && (

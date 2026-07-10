@@ -273,7 +273,7 @@ const PLAN_YEARS: Record<string, number> = {
 // the id so you can paste it into .env to skip the create on subsequent releases.
 async function ensureStripeStoragePriceId(): Promise<string> {
   if (process.env.STRIPE_STORAGE_PRICE_ID) return process.env.STRIPE_STORAGE_PRICE_ID;
-  const product = await stripe.products.create({ name: 'LegacyBridge Storage' });
+  const product = await stripe.products.create({ name: 'ForEveryAfter Storage' });
   const price = await stripe.prices.create({
     product: product.id,
     unit_amount: STORAGE_PRICE_CENTS,

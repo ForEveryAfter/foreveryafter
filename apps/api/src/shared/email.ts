@@ -5,7 +5,7 @@ dotenv.config();
 //   RESEND_API_KEY      (starts with "re_")
 //   EMAIL_FROM          (verified sender — must be a domain you've verified in Resend,
 //                        or use "onboarding@resend.dev" for quick testing on the free tier)
-//   EMAIL_FROM_NAME     (optional display name; falls back to "LegacyBridge")
+//   EMAIL_FROM_NAME     (optional display name; falls back to "ForEveryAfter")
 // Without the key + from address, sendEmail is a no-op that logs — callers don't need
 // to guard each call (same pattern as Twilio / Whisper / Stripe).
 export const isEmailConfigured = () =>
@@ -29,7 +29,7 @@ export async function sendEmail({ to, subject, text, html, replyTo }: EmailArgs)
   }
   const key = process.env.RESEND_API_KEY!;
   const fromEmail = process.env.EMAIL_FROM!;
-  const fromName = process.env.EMAIL_FROM_NAME || 'LegacyBridge';
+  const fromName = process.env.EMAIL_FROM_NAME || 'ForEveryAfter';
   // Resend accepts "Name <addr@domain>" in `from` directly — cleaner than splitting.
   const from = `${fromName} <${fromEmail}>`;
 

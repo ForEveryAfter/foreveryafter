@@ -331,8 +331,8 @@ export function EntryForm({
             <div className="flex items-center gap-2 text-[10px] text-zinc-400 italic px-2">
               <Lock size={12} />
               {showMaskedStub
-                ? 'Your saved entry is RSA-encrypted. Even LegacyBridge cannot read it. Tap the trash to delete and re-enter.'
-                : 'This will be RSA-encrypted. Even LegacyBridge cannot read it.'}
+                ? 'Your saved entry is RSA-encrypted. Even ForEveryAfter cannot read it. Tap the trash to delete and re-enter.'
+                : 'This will be RSA-encrypted. Even ForEveryAfter cannot read it.'}
             </div>
           </div>
 

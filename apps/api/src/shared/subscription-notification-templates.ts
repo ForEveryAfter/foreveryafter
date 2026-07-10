@@ -42,13 +42,13 @@ export function emailFor(
     // ── invoice.upcoming → only the subscription_owner gets this ────────────────
     case 'subscription_renewal_upcoming':
       return {
-        subject: `Your LegacyBridge subscription renews on ${date}`,
+        subject: `Your ForEveryAfter subscription renews on ${date}`,
         text:
-          `Heads up — your LegacyBridge subscription is set to renew on ${date} and the card on file will be charged automatically.\n\n` +
+          `Heads up — your ForEveryAfter subscription is set to renew on ${date} and the card on file will be charged automatically.\n\n` +
           `If you need to update your payment method first, you can do so in your Payments tab: ${ctx.paymentsUrl}\n\n` +
           `Nothing else to do otherwise. We'll send you a confirmation once the renewal goes through.`,
         html:
-          `<p>Heads up — your <strong>LegacyBridge</strong> subscription is set to renew on <strong>${date}</strong> and the card on file will be charged automatically.</p>` +
+          `<p>Heads up — your <strong>ForEveryAfter</strong> subscription is set to renew on <strong>${date}</strong> and the card on file will be charged automatically.</p>` +
           `<p>If you need to update your payment method first, you can do so in your <a href="${ctx.paymentsUrl}">Payments tab</a>.</p>` +
           `<p>Nothing else to do otherwise. We'll send you a confirmation once the renewal goes through.</p>`,
       };
@@ -56,12 +56,12 @@ export function emailFor(
     // ── invoice.paid (cycle) → only the subscription_owner gets this ────────────
     case 'subscription_renewed':
       return {
-        subject: 'Your LegacyBridge subscription has been renewed',
+        subject: 'Your ForEveryAfter subscription has been renewed',
         text:
-          `Your LegacyBridge subscription has renewed. Thanks for keeping the guide active — there's nothing else you need to do.\n\n` +
+          `Your ForEveryAfter subscription has renewed. Thanks for keeping the guide active — there's nothing else you need to do.\n\n` +
           `You can review your plan anytime in the Payments tab: ${ctx.paymentsUrl}`,
         html:
-          `<p>Your <strong>LegacyBridge</strong> subscription has renewed. Thanks for keeping the guide active — there's nothing else you need to do.</p>` +
+          `<p>Your <strong>ForEveryAfter</strong> subscription has renewed. Thanks for keeping the guide active — there's nothing else you need to do.</p>` +
           `<p>You can review your plan anytime in the <a href="${ctx.paymentsUrl}">Payments tab</a>.</p>`,
       };
 
@@ -70,7 +70,7 @@ export function emailFor(
       if (role === 'subscription_owner') {
         // Owner only: payment-method language. NO card numbers, NO amounts.
         return {
-          subject: 'Action needed: your LegacyBridge renewal payment didn’t go through',
+          subject: 'Action needed: your ForEveryAfter renewal payment didn’t go through',
           text:
             `Your renewal payment didn't go through. This is usually a billing issue — an expired card, an updated address on file with your bank, or a temporary hold.\n\n` +
             `Please update your payment method in the Payments tab so the guide doesn't lapse: ${ctx.paymentsUrl}\n\n` +
@@ -83,12 +83,12 @@ export function emailFor(
       }
       // TI + guide_owner: neutral, no financial detail. "Authority without access."
       return {
-        subject: `${ctx.guideOwnerName}'s LegacyBridge guide needs attention`,
+        subject: `${ctx.guideOwnerName}'s ForEveryAfter guide needs attention`,
         text:
-          `The subscription keeping ${ctx.guideOwnerName}'s LegacyBridge guide active needs attention.\n\n` +
+          `The subscription keeping ${ctx.guideOwnerName}'s ForEveryAfter guide active needs attention.\n\n` +
           `Please reach out to ${ctx.subscriptionOwnerName} so it doesn't lapse — they can resolve it from their Payments tab.`,
         html:
-          `<p>The subscription keeping <strong>${ctx.guideOwnerName}</strong>'s LegacyBridge guide active needs attention.</p>` +
+          `<p>The subscription keeping <strong>${ctx.guideOwnerName}</strong>'s ForEveryAfter guide active needs attention.</p>` +
           `<p>Please reach out to <strong>${ctx.subscriptionOwnerName}</strong> so it doesn't lapse — they can resolve it from their Payments tab.</p>`,
       };
 
@@ -96,23 +96,23 @@ export function emailFor(
     case 'subscription_expired':
       if (role === 'subscription_owner') {
         return {
-          subject: 'Your LegacyBridge subscription has ended',
+          subject: 'Your ForEveryAfter subscription has ended',
           text:
-            `Your LegacyBridge subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.\n\n` +
+            `Your ForEveryAfter subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.\n\n` +
             `You can reactivate from the Payments tab: ${ctx.paymentsUrl}`,
           html:
-            `<p>Your <strong>LegacyBridge</strong> subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.</p>` +
+            `<p>Your <strong>ForEveryAfter</strong> subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.</p>` +
             `<p>You can <a href="${ctx.paymentsUrl}">reactivate from the Payments tab</a>.</p>`,
         };
       }
       // TI + guide_owner: neutral.
       return {
-        subject: `${ctx.guideOwnerName}'s LegacyBridge guide is at risk`,
+        subject: `${ctx.guideOwnerName}'s ForEveryAfter guide is at risk`,
         text:
-          `${ctx.guideOwnerName}'s LegacyBridge subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.\n\n` +
+          `${ctx.guideOwnerName}'s ForEveryAfter subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.\n\n` +
           `Please reach out to ${ctx.subscriptionOwnerName} so they can reactivate it.`,
         html:
-          `<p><strong>${ctx.guideOwnerName}</strong>'s LegacyBridge subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.</p>` +
+          `<p><strong>${ctx.guideOwnerName}</strong>'s ForEveryAfter subscription has ended. Access to the guide is at risk and will be removed unless a new subscription is started.</p>` +
           `<p>Please reach out to <strong>${ctx.subscriptionOwnerName}</strong> so they can reactivate it.</p>`,
       };
   }
@@ -138,7 +138,7 @@ export function inAppFor(
     // TI: neutral, no financial detail.
     return {
       title: 'A subscription you oversee needs attention',
-      body: `${ctx.guideOwnerName}'s LegacyBridge guide subscription needs attention. Please reach out to ${ctx.subscriptionOwnerName}.`,
+      body: `${ctx.guideOwnerName}'s ForEveryAfter guide subscription needs attention. Please reach out to ${ctx.subscriptionOwnerName}.`,
     };
   }
   // Exhaustiveness fallback.

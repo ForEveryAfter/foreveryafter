@@ -17,6 +17,7 @@ import {
   RotateCcw,
   X,
   AlertTriangle,
+  Play,
 } from 'lucide-react';
 import {
   fetchWithAuth,
@@ -25,6 +26,15 @@ import {
   type FamilyMember as ApiFamilyMember,
 } from '@/lib/api';
 import Recorder from '@/components/dashboard/Recorder';
+import IntroVideoOverlay from '@/components/dashboard/IntroVideoOverlay';
+
+// First-play intro video for this section. The file is shipped statically under
+// apps/web/public/parent/messagesforlovedones/ — directory name on disk uses
+// the plural ("messages"); keep this constant in sync if the asset is renamed.
+// Mirrors the willandtrust + specialoccassion patterns elsewhere in the app.
+const LETTERS_INTRO_VIDEO =
+  '/parent/messagesforlovedones/Legacy Bridge_ Messages for Loved Ones_1080p_caption.mp4';
+const LETTERS_INTRO_FLAG = 'letters_intro_dismissed';
 
 // Letters can be addressed to ANYONE the parent considers a loved one — this
 // includes immediate family. Contrast with the Final Wishes notify list, which
@@ -602,6 +612,42 @@ export default function LettersPage() {
   // Master roster from /settings/family. The AddPersonModal's picker filters
   // this list down to people not currently shown as letter recipients.
   const [allFamily, setAllFamily] = useState<FamilyMember[]>([]);
+  // First-visit intro video. Per-section flag (not the dashboard-root one) so
+  // landing on Letters for the first time surfaces this video independently.
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Check the per-section dismissal flag on mount. If never dismissed, show
+  // the overlay. A failed read leaves the overlay hidden (better to skip the
+  // video than risk replaying it after a previous dismissal).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const flags = await fetchWithAuth('/interview/flags', USER_ID);
+        const dismissed = Array.isArray(flags) && flags.some(
+          (f: any) => f.flag === LETTERS_INTRO_FLAG
+        );
+        if (!cancelled && !dismissed) setShowIntro(true);
+      } catch (err) {
+        console.error('Failed to check letters intro flag:', err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Persist the dismissal so the video doesn't reappear on the next visit.
+  // Optimistically close first; the flag write is best-effort.
+  const handleDismissIntro = async () => {
+    setShowIntro(false);
+    try {
+      await fetchWithAuth('/interview/flags', USER_ID, {
+        method: 'POST',
+        body: JSON.stringify({ flag: LETTERS_INTRO_FLAG }),
+      });
+    } catch (err) {
+      console.error('Failed to save letters intro flag:', err);
+    }
+  };
 
   // ── Load ──────────────────────────────────────────────────────────────────
   // Pull the real family roster from /settings/family (single source of truth)
@@ -702,14 +748,34 @@ export default function LettersPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
-      </div>
+      <>
+        {/* Render the intro overlay even during the data-load spinner state —
+            the video is independent of the recipients/letters fetches and
+            shouldn't sit behind them. */}
+        {showIntro && (
+          <IntroVideoOverlay
+            videoUrl={LETTERS_INTRO_VIDEO}
+            onDismiss={handleDismissIntro}
+          />
+        )}
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+        </div>
+      </>
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in duration-500 pb-20">
+      {/* First-visit intro video — overlays the page until dismissed. The
+          dismissal is persisted via /interview/flags so it never replays for
+          the same user. */}
+      {showIntro && (
+        <IntroVideoOverlay
+          videoUrl={LETTERS_INTRO_VIDEO}
+          onDismiss={handleDismissIntro}
+        />
+      )}
       {/* Add Person Modal — picker shows family & friends not already on the
           page (immediate stays included per spec, but filtered if they're
           already auto-listed). Falls through to "Add someone new" if they
@@ -730,14 +796,28 @@ export default function LettersPage() {
         />
       )}
 
-      {/* ── Header ── */}
-      <header className="space-y-2">
-        <h1 className="font-playfair text-4xl font-black text-navy flex items-center gap-3">
-          💌 Letters to Loved Ones
-        </h1>
-        <p className="text-zinc-500">
-          The things you most want them to know — in your own words.
-        </p>
+      {/* ── Header ──
+          Flex row so the "Watch intro" replay button sits at the top-right
+          without disrupting the title/subtitle stack. */}
+      <header className="flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="font-playfair text-4xl font-black text-navy flex items-center gap-3">
+            💌 Letters to Loved Ones
+          </h1>
+          <p className="text-zinc-500">
+            The things you most want them to know — in your own words.
+          </p>
+        </div>
+        {/* Replay affordance — re-opens the intro overlay without touching
+            the dismissal flag (so it doesn't reappear on its own next visit). */}
+        <button
+          type="button"
+          onClick={() => setShowIntro(true)}
+          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-navy border border-zinc-200 hover:border-zinc-300 bg-white px-3 py-1.5 rounded-full transition-colors"
+        >
+          <Play className="w-3 h-3 fill-current" />
+          Watch intro
+        </button>
       </header>
 
       {loadError && (

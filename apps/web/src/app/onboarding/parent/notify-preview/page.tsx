@@ -121,7 +121,7 @@ export default function ParentNotifyPreviewPage() {
                     label="note"
                   />
                 </p>
-                <p>I've set up a LegacyBridge to help organize our family's most important information and stories.</p>
+                <p>I've set up a ForEveryAfter to help organize our family's most important information and stories.</p>
                 <div className="p-4 bg-zinc-50 rounded-xl text-zinc-400 text-center text-xs border border-dashed border-zinc-200">
                    NO Button for Children (Notification only)
                 </div>

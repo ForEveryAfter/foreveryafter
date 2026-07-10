@@ -13,7 +13,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "LegacyBridge | Give your family the gift of knowing",
+  title: "ForEveryAfter | Give your family the gift of knowing",
   description: "A guided way for families to preserve stories, organize important information, and ensure loved ones have everything they need.",
 };
 

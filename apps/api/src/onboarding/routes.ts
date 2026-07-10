@@ -335,14 +335,14 @@ router.post('/notify', requireUser, async (req: any, res) => {
       const text =
         `Hi ${firstName},\n\n` +
         `I'm ${parentFull}.${noteBlock}` +
-        `I've set up a LegacyBridge to help organize our family's most important information and stories. ` +
-        `You'll hear from me — and from LegacyBridge — over time as I add to it.\n\n` +
+        `I've set up a ForEveryAfter to help organize our family's most important information and stories. ` +
+        `You'll hear from me — and from ForEveryAfter — over time as I add to it.\n\n` +
         `With love,\n${parentFirst}`;
       const html =
         `<p>Hi ${firstName},</p>` +
         `<p>I'm ${parentFull}.</p>` +
         (childrenNote ? `<blockquote style="border-left:3px solid #ddd;padding-left:12px;color:#555;"><em>${childrenNote.replace(/\n/g, '<br/>')}</em></blockquote>` : '') +
-        `<p>I've set up a <strong>LegacyBridge</strong> to help organize our family's most important information and stories. You'll hear from me — and from LegacyBridge — over time as I add to it.</p>` +
+        `<p>I've set up a <strong>ForEveryAfter</strong> to help organize our family's most important information and stories. You'll hear from me — and from ForEveryAfter — over time as I add to it.</p>` +
         `<p>With love,<br/>${parentFirst}</p>`;
       const r = await sendEmail({
         to: c.email!,
@@ -360,13 +360,13 @@ router.post('/notify', requireUser, async (req: any, res) => {
       const noteBlock = spouseNote ? `\n\n${spouseNote}\n\n` : '\n\n';
       const text =
         `Hi ${firstName},${noteBlock}` +
-        `${parentFull} has invited you to join LegacyBridge — a place to organize our family's important information and stories together.\n\n` +
+        `${parentFull} has invited you to join ForEveryAfter — a place to organize our family's important information and stories together.\n\n` +
         `Set up your guide: ${loginUrl}\n\n` +
         `With love,\n${parentFirst}`;
       const html =
         `<p>Hi ${firstName},</p>` +
         (spouseNote ? `<blockquote style="border-left:3px solid #ddd;padding-left:12px;color:#555;"><em>${spouseNote.replace(/\n/g, '<br/>')}</em></blockquote>` : '') +
-        `<p>${parentFull} has invited you to join <strong>LegacyBridge</strong> — a place to organize our family's important information and stories together.</p>` +
+        `<p>${parentFull} has invited you to join <strong>ForEveryAfter</strong> — a place to organize our family's important information and stories together.</p>` +
         `<p><a href="${loginUrl}" style="display:inline-block;background:#C9A961;color:#fff;padding:12px 24px;border-radius:12px;font-weight:bold;text-decoration:none;">Set up your guide</a></p>` +
         `<p>With love,<br/>${parentFirst}</p>`;
       const r = await sendEmail({

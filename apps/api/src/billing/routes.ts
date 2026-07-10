@@ -48,7 +48,7 @@ router.post('/checkout', requireUser, async (req: any, res) => {
           price_data: {
             currency: 'usd',
             unit_amount: amount,
-            product_data: { name: `LegacyBridge ${plan.name}${coverage === 'both' ? ' + spouse' : ''}` },
+            product_data: { name: `ForEveryAfter ${plan.name}${coverage === 'both' ? ' + spouse' : ''}` },
             ...(recurring ? { recurring: { interval: 'year' as const } } : {}),
           },
         },

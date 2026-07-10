@@ -798,6 +798,9 @@ video {
 .top-full {
   top: 100%;
 }
+.top-24 {
+  top: 6rem;
+}
 .-z-10 {
   z-index: -10;
 }
@@ -1171,6 +1174,9 @@ video {
 }
 .w-px {
   width: 1px;
+}
+.w-auto {
+  width: auto;
 }
 .min-w-0 {
   min-width: 0px;
@@ -2035,6 +2041,9 @@ video {
 }
 .fill-white {
   fill: #fff;
+}
+.fill-current {
+  fill: currentColor;
 }
 .object-contain {
   -o-object-fit: contain;

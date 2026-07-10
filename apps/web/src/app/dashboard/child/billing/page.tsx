@@ -135,7 +135,7 @@ export default function ChildBilling() {
             </div>
             <h4 className="font-bold text-sm">Secure Preservation</h4>
             <p className="text-xs text-zinc-500 leading-relaxed">
-              LegacyBridge uses military-grade encryption to ensure that your memories are safe until the moment they are needed.
+              ForEveryAfter uses military-grade encryption to ensure that your memories are safe until the moment they are needed.
             </p>
           </div>
         </div>

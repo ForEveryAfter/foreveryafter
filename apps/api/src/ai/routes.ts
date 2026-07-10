@@ -18,7 +18,7 @@ router.post('/chat', async (req, res) => {
     const response = await anthropic.messages.create({
       model: 'claude-3-sonnet-20240229',
       max_tokens: 1024,
-      system: `You are the LegacyBridge Assistant. Your goal is to help users navigate their legacy planning platform. 
+      system: `You are the ForEveryAfter Assistant. Your goal is to help users navigate their legacy planning platform. 
       Context about the current user: ${JSON.stringify(context || {})}
       
       Guidelines:

@@ -16,7 +16,7 @@ interface IntroVideoOverlayProps {
 // includes the Skip button when the overlay is rendered inline. Portalling to
 // document.body lifts the overlay out of the fieldset so Skip stays clickable
 // regardless of subscription state.
-export default function IntroVideoOverlay({ onDismiss, videoUrl = '/parent/parent-intro.mp4' }: IntroVideoOverlayProps) {
+export default function IntroVideoOverlay({ onDismiss, videoUrl = '/parent/Legacy Bridge_ Parent Intro_1080p_caption.mp4' }: IntroVideoOverlayProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   // Portal mount guard: `document` doesn't exist during SSR, and createPortal will
   // throw if called with no target. Render nothing on the server pass; flip true

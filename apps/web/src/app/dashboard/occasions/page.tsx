@@ -16,9 +16,19 @@ import {
   Calendar,
   Sparkles,
   AlertTriangle,
+  Play,
 } from 'lucide-react';
 import { fetchWithAuth } from '@/lib/api';
 import Recorder from '@/components/dashboard/Recorder';
+import IntroVideoOverlay from '@/components/dashboard/IntroVideoOverlay';
+
+// First-play intro video for this section. The file is shipped statically under
+// apps/web/public/parent/specialoccassion/ — note the directory name carries
+// the original on-disk spelling ("occassion"); keep it in sync if the asset is
+// ever renamed. Mirrors the willandtrust pattern in /dashboard/wills.
+const SPECIAL_OCCASIONS_INTRO_VIDEO =
+  '/parent/specialoccassion/Legacy Bridge - Special Occasions_1080p_caption.mp4';
+const SPECIAL_OCCASIONS_INTRO_FLAG = 'special_occasions_intro_dismissed';
 
 const USER_ID = '74656c6c-6d65-4123-8123-123456789012';
 // Saved-state playback URLs go through /storage/* (session-gated via
@@ -958,6 +968,45 @@ export default function OccasionsPage() {
     relationship: string;
     isFamilyMessage: boolean;
   } | null>(null);
+  // First-visit intro video. We persist a per-section flag rather than reusing
+  // the dashboard-root `intro_video_dismissed` so each section's video can be
+  // surfaced independently the first time the user lands on it.
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Check the per-section dismissal flag on mount. We only show the intro when
+  // it's NEVER been dismissed — a failed flag read leaves the overlay hidden
+  // (better to skip the video than to re-show it after the user has already
+  // dismissed it once).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const flags = await fetchWithAuth('/interview/flags', USER_ID);
+        const dismissed = Array.isArray(flags) && flags.some(
+          (f: any) => f.flag === SPECIAL_OCCASIONS_INTRO_FLAG
+        );
+        if (!cancelled && !dismissed) setShowIntro(true);
+      } catch (err) {
+        console.error('Failed to check special-occasions intro flag:', err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Persist the dismissal so the video doesn't reappear on the next visit.
+  // Optimistically close the overlay first; the flag write is best-effort
+  // (worst case: the user sees the video again next mount, which is mild).
+  const handleDismissIntro = async () => {
+    setShowIntro(false);
+    try {
+      await fetchWithAuth('/interview/flags', USER_ID, {
+        method: 'POST',
+        body: JSON.stringify({ flag: SPECIAL_OCCASIONS_INTRO_FLAG }),
+      });
+    } catch (err) {
+      console.error('Failed to save special-occasions intro flag:', err);
+    }
+  };
 
   // ── Load ──────────────────────────────────────────────────────────────────
   const load = useCallback(async () => {
@@ -1017,14 +1066,34 @@ export default function OccasionsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
-      </div>
+      <>
+        {/* Render the intro overlay even during the data-load spinner state —
+            the video is independent of recipients/occasions data and there's
+            no reason to delay it behind those fetches. */}
+        {showIntro && (
+          <IntroVideoOverlay
+            videoUrl={SPECIAL_OCCASIONS_INTRO_VIDEO}
+            onDismiss={handleDismissIntro}
+          />
+        )}
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+        </div>
+      </>
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in duration-500 pb-20">
+      {/* First-visit intro video — overlays the page until the user dismisses
+          it. The dismissal is persisted via /interview/flags, so it never
+          replays for the same user. */}
+      {showIntro && (
+        <IntroVideoOverlay
+          videoUrl={SPECIAL_OCCASIONS_INTRO_VIDEO}
+          onDismiss={handleDismissIntro}
+        />
+      )}
       {showAddPersonModal && (
         <AddPersonModal
           onClose={() => setShowAddPersonModal(false)}
@@ -1043,14 +1112,29 @@ export default function OccasionsPage() {
         />
       )}
 
-      {/* ── Header ── */}
-      <header className="space-y-2">
-        <h1 className="font-playfair text-4xl font-black text-navy">
-          Special Occasions
-        </h1>
-        <p className="text-zinc-500">
-          Your voice at the moments you&apos;d most want to be there.
-        </p>
+      {/* ── Header ──
+          Flex row so the "Watch intro" replay button can sit at the top-right
+          of the section without disrupting the existing title/subtitle stack. */}
+      <header className="flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="font-playfair text-4xl font-black text-navy">
+            Special Occasions
+          </h1>
+          <p className="text-zinc-500">
+            Your voice at the moments you&apos;d most want to be there.
+          </p>
+        </div>
+        {/* Replay affordance — flips showIntro back to true without touching
+            the dismissal flag, so the user can re-watch on demand but the
+            video still doesn't auto-play on every subsequent visit. */}
+        <button
+          type="button"
+          onClick={() => setShowIntro(true)}
+          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-navy border border-zinc-200 hover:border-zinc-300 bg-white px-3 py-1.5 rounded-full transition-colors"
+        >
+          <Play className="w-3 h-3 fill-current" />
+          Watch intro
+        </button>
       </header>
 
       {loadError && (

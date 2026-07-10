@@ -2,22 +2,33 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  ChevronLeft, 
-  Plus, 
+import {
+  ChevronLeft,
+  Plus,
   MoreVertical,
   Trash2,
   Edit2,
   Lock,
   CheckCircle2,
-  AlertTriangle
+  AlertTriangle,
+  Play,
 } from 'lucide-react';
-import { 
-  AccountsAudioPrompt, 
+import {
+  AccountsAudioPrompt,
   EntryForm,
   CATEGORY_ICONS,
   CATEGORY_LABELS
 } from '@/components/dashboard/AccountsUIComponents';
+import IntroVideoOverlay from '@/components/dashboard/IntroVideoOverlay';
+import { fetchWithAuth } from '@/lib/api';
+
+// First-play intro video for this section. Lives under
+// apps/web/public/parent/accountsandlocation/ — directory name on disk uses
+// the singular ("location"); keep this constant in sync if the asset is renamed.
+// Mirrors the patterns in /wills, /letters, /occasions, /final-wishes, /health.
+const ACCOUNTS_INTRO_VIDEO =
+  '/parent/accountsandlocation/Legacy Bridge_ Accounts and Locations_1080p_caption.mp4';
+const ACCOUNTS_INTRO_FLAG = 'accounts_intro_dismissed';
 
 interface AccountEntry {
   id: string;
@@ -37,6 +48,42 @@ export default function AccountsPage() {
   const [showEntryForm, setShowEntryForm] = useState<{ category: string, entry?: AccountEntry } | null>(null);
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customCategoryName, setCustomCategoryName] = useState('');
+  // First-visit intro video. Per-section flag so landing on Accounts for the
+  // first time surfaces this video independently of the dashboard-root one.
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Check the per-section dismissal flag on mount. If never dismissed, show
+  // the overlay. A failed read leaves the overlay hidden (better to skip the
+  // video than to replay it after a previous dismissal).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const flags = await fetchWithAuth('/interview/flags', userId);
+        const dismissed = Array.isArray(flags) && flags.some(
+          (f: any) => f.flag === ACCOUNTS_INTRO_FLAG
+        );
+        if (!cancelled && !dismissed) setShowIntro(true);
+      } catch (err) {
+        console.error('Failed to check accounts intro flag:', err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Persist the dismissal so the video doesn't reappear on the next visit.
+  // Optimistically close first; the flag write is best-effort.
+  const handleDismissIntro = async () => {
+    setShowIntro(false);
+    try {
+      await fetchWithAuth('/interview/flags', userId, {
+        method: 'POST',
+        body: JSON.stringify({ flag: ACCOUNTS_INTRO_FLAG }),
+      });
+    } catch (err) {
+      console.error('Failed to save accounts intro flag:', err);
+    }
+  };
 
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -162,9 +209,20 @@ export default function AccountsPage() {
   };
 
   if (loading) return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold" />
-    </div>
+    <>
+      {/* Render the intro overlay even during the data-load spinner state —
+          the video is independent of the entries fetch and shouldn't sit
+          behind it. */}
+      {showIntro && (
+        <IntroVideoOverlay
+          videoUrl={ACCOUNTS_INTRO_VIDEO}
+          onDismiss={handleDismissIntro}
+        />
+      )}
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold" />
+      </div>
+    </>
   );
 
   if (isVerified === false && loading === false) {
@@ -200,6 +258,15 @@ export default function AccountsPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10 space-y-12 pb-32">
+      {/* First-visit intro video — overlays the page until dismissed. The
+          dismissal is persisted via /interview/flags so it never replays for
+          the same user. */}
+      {showIntro && (
+        <IntroVideoOverlay
+          videoUrl={ACCOUNTS_INTRO_VIDEO}
+          onDismiss={handleDismissIntro}
+        />
+      )}
       <header className="space-y-6">
         <Link href="/dashboard" className="flex items-center gap-2 text-sm font-bold text-zinc-400 hover:text-navy transition-colors">
           <ChevronLeft size={18} /> Back to Dashboard
@@ -209,8 +276,23 @@ export default function AccountsPage() {
             <h1 className="font-playfair text-4xl font-black text-navy leading-tight">Accounts & Locations</h1>
             <p className="text-zinc-500">Secure access for your family when it matters most.</p>
           </div>
-          <div className="flex items-center gap-2 bg-teal-50 text-teal-600 px-4 py-2 rounded-full text-xs font-bold">
-            <Lock size={14} /> RSA-2048 Encrypted
+          {/* Right-side header chips: the existing encryption badge, plus the
+              "Watch intro" replay affordance. Both wrapped in a flex container
+              so they share the same row at md+ widths. */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 bg-teal-50 text-teal-600 px-4 py-2 rounded-full text-xs font-bold">
+              <Lock size={14} /> RSA-2048 Encrypted
+            </div>
+            {/* Replay affordance — re-opens the intro overlay without touching
+                the dismissal flag. */}
+            <button
+              type="button"
+              onClick={() => setShowIntro(true)}
+              className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-navy border border-zinc-200 hover:border-zinc-300 bg-white px-3 py-1.5 rounded-full transition-colors"
+            >
+              <Play className="w-3 h-3 fill-current" />
+              Watch intro
+            </button>
           </div>
         </div>
       </header>

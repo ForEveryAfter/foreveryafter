@@ -48,7 +48,7 @@ export default function SetupPricingPage() {
         <div>
           <p className="font-bold text-amber-800 text-sm">Family member discount applied — 20% off all plans.</p>
           <p className="text-xs text-amber-600 mt-0.5">
-            This discount is applied automatically because you&apos;re already part of a LegacyBridge family.
+            This discount is applied automatically because you&apos;re already part of a ForEveryAfter family.
           </p>
         </div>
       </div>

@@ -23,11 +23,11 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
     role: 'parent',
     videos: [
       {
-        id: 'v1', title: 'Welcome to LegacyBridge', subtitle: 'An introduction to your guide',
+        id: 'v1', title: 'Welcome to ForEveryAfter', subtitle: 'An introduction to your guide',
         category: 'Getting started', duration: '1:30',
         gradientFrom: '#4A5E52', gradientTo: '#2D6A4F',
-        videoUrl: '/parent/parent-intro.mp4',
-        script: `Welcome to LegacyBridge. This is a space built just for you — a private, guided way to organize the stories, information, and wishes your family will one day need.\n\nThink of it as a living letter to the people you love most. Not a legal document. Not a chore. Just a gentle, structured way to make sure nothing important is lost.\n\nYou'll work at your own pace. There are no deadlines, no pressure, and everything stays private until you say otherwise. Your guide is encrypted and locked — only you control who sees what, and when.\n\nIn this guide, you'll find sections for your life story, your accounts and important locations, health information, final wishes, letters to loved ones, and even messages for special occasions.\n\nLet's get started. Your family will thank you.`,
+        videoUrl: '/parent/Legacy Bridge_ Parent Intro_1080p_caption.mp4',
+        script: `Welcome to ForEveryAfter. This is a space built just for you — a private, guided way to organize the stories, information, and wishes your family will one day need.\n\nThink of it as a living letter to the people you love most. Not a legal document. Not a chore. Just a gentle, structured way to make sure nothing important is lost.\n\nYou'll work at your own pace. There are no deadlines, no pressure, and everything stays private until you say otherwise. Your guide is encrypted and locked — only you control who sees what, and when.\n\nIn this guide, you'll find sections for your life story, your accounts and important locations, health information, final wishes, letters to loved ones, and even messages for special occasions.\n\nLet's get started. Your family will thank you.`,
       },
       {
         id: 'v2', title: 'Who receives your guide', subtitle: 'Understanding access and recipients',
@@ -45,7 +45,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'v4', title: 'How the check-in works', subtitle: 'Staying connected and secure',
         category: 'Getting started', duration: '1:45',
         gradientFrom: '#2D6A3A', gradientTo: '#3D5E4A',
-        script: `Check-ins are how LegacyBridge knows you're okay. At regular intervals — you chose every 6 months — we'll send you a simple notification asking you to confirm you're still here.\n\nAll you have to do is tap a button. That's it. If you miss a check-in, we'll try again. If you miss several in a row, we'll reach out to your Trusted Representative.\n\nThis system ensures your guide is released only when it should be — not a moment sooner. Your check-in cadence can be changed at any time in Settings.`,
+        script: `Check-ins are how ForEveryAfter knows you're okay. At regular intervals — you chose every 6 months — we'll send you a simple notification asking you to confirm you're still here.\n\nAll you have to do is tap a button. That's it. If you miss a check-in, we'll try again. If you miss several in a row, we'll reach out to your Trusted Representative.\n\nThis system ensures your guide is released only when it should be — not a moment sooner. Your check-in cadence can be changed at any time in Settings.`,
       },
     ],
   },
@@ -63,13 +63,13 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'v6', title: 'The obituary — what your family receives', subtitle: 'A prepared tribute',
         category: 'Your guide', duration: '1:45',
         gradientFrom: '#607A6A', gradientTo: '#7A9488',
-        script: `One of the most stressful tasks a family faces is writing an obituary under time pressure. LegacyBridge takes care of this for you.\n\nBased on the stories and information you provide in your life story section, we can generate a draft obituary that captures your voice, your achievements, and your personality.\n\nYour family can use it as-is, or edit it to add their own reflections. Either way, they won't be starting from a blank page during the hardest week of their lives.`,
+        script: `One of the most stressful tasks a family faces is writing an obituary under time pressure. ForEveryAfter takes care of this for you.\n\nBased on the stories and information you provide in your life story section, we can generate a draft obituary that captures your voice, your achievements, and your personality.\n\nYour family can use it as-is, or edit it to add their own reflections. Either way, they won't be starting from a blank page during the hardest week of their lives.`,
       },
       {
         id: 'v7', title: 'How your guide stays locked', subtitle: 'Security and privacy',
         category: 'Access & privacy', duration: '1:45',
         gradientFrom: '#3D5247', gradientTo: '#4A5E52',
-        script: `Your guide is encrypted from the moment you create it. No one at LegacyBridge can read your information. Not our engineers, not our support team, no one.\n\nYour guide is locked and will remain locked as long as you continue responding to check-ins. If you stop responding — and only then — your Trusted Representative is notified and the release process begins.\n\nYou can also manually unlock specific sections for specific people at any time. For example, you might want your spouse to see your health information now, but keep your letters private until later.\n\nYou're always in control.`,
+        script: `Your guide is encrypted from the moment you create it. No one at ForEveryAfter can read your information. Not our engineers, not our support team, no one.\n\nYour guide is locked and will remain locked as long as you continue responding to check-ins. If you stop responding — and only then — your Trusted Representative is notified and the release process begins.\n\nYou can also manually unlock specific sections for specific people at any time. For example, you might want your spouse to see your health information now, but keep your letters private until later.\n\nYou're always in control.`,
       },
       {
         id: 'v8', title: 'What happens if you miss a check-in', subtitle: 'The safety net explained',
@@ -87,7 +87,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'v14', title: 'How to release the guide as Trusted Representative', subtitle: 'For your designated contact',
         category: 'For your family', duration: '1:45',
         gradientFrom: '#4A5E52', gradientTo: '#607A6A',
-        script: `If you've been designated as someone's Trusted Representative, you play an important role. When the time comes, you'll receive a notification from LegacyBridge letting you know that your loved one has stopped responding to check-ins.\n\nFrom there, you'll go through a simple verification process. This is designed to prevent accidental or unauthorized access. Once verified, the guide will be released to all designated recipients.\n\nYou don't need to do anything now. Just know that when the moment comes, we'll walk you through every step.`,
+        script: `If you've been designated as someone's Trusted Representative, you play an important role. When the time comes, you'll receive a notification from ForEveryAfter letting you know that your loved one has stopped responding to check-ins.\n\nFrom there, you'll go through a simple verification process. This is designed to prevent accidental or unauthorized access. Once verified, the guide will be released to all designated recipients.\n\nYou don't need to do anything now. Just know that when the moment comes, we'll walk you through every step.`,
       },
       {
         id: 'v15', title: 'How to generate an obituary', subtitle: 'Creating a tribute',
@@ -110,10 +110,10 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
     role: 'child',
     videos: [
       {
-        id: 'cv1', title: 'Welcome to LegacyBridge', subtitle: "An introduction to your parent's guide",
+        id: 'cv1', title: 'Welcome to ForEveryAfter', subtitle: "An introduction to your parent's guide",
         category: 'Getting started', duration: '2:30',
         gradientFrom: '#1E3A5F', gradientTo: '#2D5A8F',
-        script: `Welcome to LegacyBridge. Someone in your family — most likely a parent — has set up a guide to make sure nothing important is lost when the time comes.\n\nThis isn't something to worry about. It's actually the opposite — it's a gift. Your parent has taken the time to organize their stories, their wishes, their accounts, and their messages to you.\n\nRight now, you can't see any of that. The guide is locked and private. Your role is simply to be aware that it exists, and to know that when the time comes, everything you need will be waiting for you.\n\nIn the meantime, you can explore this dashboard to understand what the guide contains, what your role is, and how the system works.`,
+        script: `Welcome to ForEveryAfter. Someone in your family — most likely a parent — has set up a guide to make sure nothing important is lost when the time comes.\n\nThis isn't something to worry about. It's actually the opposite — it's a gift. Your parent has taken the time to organize their stories, their wishes, their accounts, and their messages to you.\n\nRight now, you can't see any of that. The guide is locked and private. Your role is simply to be aware that it exists, and to know that when the time comes, everything you need will be waiting for you.\n\nIn the meantime, you can explore this dashboard to understand what the guide contains, what your role is, and how the system works.`,
       },
       {
         id: 'cv2', title: 'Who receives the guide', subtitle: 'Understanding your role',
@@ -122,10 +122,10 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         script: `Your parent has designated specific people to receive their guide. You're one of them.\n\nAs a recipient, you'll be notified when the guide is released. You'll have access to everything your parent chose to share — their stories, their accounts, their wishes, and their personal messages.\n\nIf you've been designated as the Trusted Representative, you have an additional responsibility: you're the first point of contact when your parent stops responding to check-ins. We'll guide you through everything when the time comes.`,
       },
       {
-        id: 'cv3', title: 'What LegacyBridge is and your role in it', subtitle: 'The big picture',
+        id: 'cv3', title: 'What ForEveryAfter is and your role in it', subtitle: 'The big picture',
         category: 'Getting started', duration: '2:30',
         gradientFrom: '#1E3A5F', gradientTo: '#4A6A9F',
-        script: `LegacyBridge is a private, secure platform that helps families organize what matters most — stories, information, and wishes — so that nothing is lost when it matters most.\n\nYour parent has created a guide. Think of it as a comprehensive, personal letter to their family, combined with a secure vault of important information.\n\nYour role right now is passive. You don't need to do anything. But understanding how the system works will help you feel prepared and reassured.\n\nYou can also set up your own guide whenever you're ready. As a family member, you receive a 20% discount.`,
+        script: `ForEveryAfter is a private, secure platform that helps families organize what matters most — stories, information, and wishes — so that nothing is lost when it matters most.\n\nYour parent has created a guide. Think of it as a comprehensive, personal letter to their family, combined with a secure vault of important information.\n\nYour role right now is passive. You don't need to do anything. But understanding how the system works will help you feel prepared and reassured.\n\nYou can also set up your own guide whenever you're ready. As a family member, you receive a 20% discount.`,
       },
     ],
   },
@@ -137,7 +137,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'cv10', title: 'Your role as Trusted Representative', subtitle: 'What it means and what to expect',
         category: 'Access & privacy', duration: '1:45',
         gradientFrom: '#1E3A5F', gradientTo: '#2D5A8F',
-        script: `As Trusted Representative, you're the first person LegacyBridge contacts when your parent stops responding to check-ins.\n\nThis doesn't mean anything has happened. It simply means the system couldn't reach them, and it needs a human to help figure out what's going on.\n\nYou might find that your parent simply forgot, or changed their phone number, or is on vacation without service. In those cases, you can help extend the check-in window.\n\nBut if something has happened, you'll be the one to initiate the guide release process. We'll walk you through every step.`,
+        script: `As Trusted Representative, you're the first person ForEveryAfter contacts when your parent stops responding to check-ins.\n\nThis doesn't mean anything has happened. It simply means the system couldn't reach them, and it needs a human to help figure out what's going on.\n\nYou might find that your parent simply forgot, or changed their phone number, or is on vacation without service. In those cases, you can help extend the check-in window.\n\nBut if something has happened, you'll be the one to initiate the guide release process. We'll walk you through every step.`,
       },
       {
         id: 'cv11', title: 'Your role as first contact', subtitle: 'Coordinating with the family',
@@ -167,7 +167,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'cv14', title: 'How to release the guide as Trusted Representative', subtitle: 'Step-by-step process',
         category: 'When the time comes', duration: '1:45',
         gradientFrom: '#1E3A5F', gradientTo: '#2D5A8F',
-        script: `When the time comes, you'll receive a notification from LegacyBridge. Here's the step-by-step process:\n\n1. Open the notification and log in to your dashboard.\n2. You'll see a prompt to begin the release process.\n3. Verify your identity using the method you set up during onboarding.\n4. Confirm that you want to release the guide.\n5. All recipients are notified and given access.\n\nThe entire process takes about 5 minutes. Everything is guided, and you can contact support at any time if you need help.\n\nYour parent wanted this to be easy for you. That's why they set it up.`,
+        script: `When the time comes, you'll receive a notification from ForEveryAfter. Here's the step-by-step process:\n\n1. Open the notification and log in to your dashboard.\n2. You'll see a prompt to begin the release process.\n3. Verify your identity using the method you set up during onboarding.\n4. Confirm that you want to release the guide.\n5. All recipients are notified and given access.\n\nThe entire process takes about 5 minutes. Everything is guided, and you can contact support at any time if you need help.\n\nYour parent wanted this to be easy for you. That's why they set it up.`,
       },
       {
         id: 'cv15', title: 'How to generate an obituary', subtitle: 'Creating a tribute from the guide',

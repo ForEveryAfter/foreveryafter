@@ -9,8 +9,8 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-[#FAFAF7] font-inter text-navy">
       <header className="px-6 py-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <img src="/logo.png" alt="LegacyBridge" className="w-10 h-10 object-contain" />
-          <span className="font-bold text-xl tracking-tight">LegacyBridge</span>
+          {/* Logo image contains the wordmark — no adjacent text span needed. */}
+          <img src="/logo.png" alt="ForEveryAfter" className="h-10 w-auto object-contain" />
         </Link>
       </header>
 

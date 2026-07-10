@@ -102,8 +102,10 @@ export default function DashboardNav() {
         {/* Left: Logo + Role Switcher + Nav Links */}
         <div className="flex items-center gap-4">
           <Link href={isChildMode ? '/dashboard/child/overview' : '/dashboard'} className="flex items-center gap-2.5 shrink-0">
-            <img src="/logo.png" alt="LegacyBridge" className="w-7 h-7 object-contain brightness-0 invert" />
-            <span className="font-bold text-sm tracking-tight hidden md:block">LegacyBridge</span>
+            {/* Logo image contains the wordmark — no adjacent text span needed.
+                `brightness-0 invert` turns the whole logo pure white so it sits
+                on the dark nav; the wordmark comes along for the ride. */}
+            <img src="/logo.png" alt="ForEveryAfter" className="h-7 w-auto object-contain brightness-0 invert" />
           </Link>
 
           {/* Role Switcher Pill */}

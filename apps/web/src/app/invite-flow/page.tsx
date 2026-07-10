@@ -13,10 +13,10 @@ import {
   type InviteInfo,
 } from '@/lib/api';
 
-// TODO(assets): replace with the real child-welcome + trusted-individual videos when
-// they exist. Only /parent/parent-intro.mp4 is on disk today, so it's the placeholder.
-const CHILD_VIDEO = '/parent/parent-intro.mp4';
-const TI_VIDEO = '/parent/parent-intro.mp4';
+// TODO(assets): replace with the real child-welcome + trusted-individual videos
+// when they exist. The parent intro is the current placeholder for both.
+const CHILD_VIDEO = '/parent/Legacy Bridge_ Parent Intro_1080p_caption.mp4';
+const TI_VIDEO = '/parent/Legacy Bridge_ Parent Intro_1080p_caption.mp4';
 
 type Step = 'loading' | 'child-video' | 'child-review' | 'ti-review-entry' | 'ti-video' | 'ti-review-confirm';
 

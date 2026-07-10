@@ -3,11 +3,18 @@
 export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
-import { 
-  FileText, ShieldCheck, Lock, CheckCircle2, AlertCircle, Plus, Sparkles, Video, Eye, Trash2, X
+import {
+  FileText, ShieldCheck, Lock, CheckCircle2, AlertCircle, Plus, Sparkles, Video, Eye, Trash2, X, Play
 } from 'lucide-react';
 import { fetchWithAuth } from '@/lib/api';
 import IntroVideoOverlay from '@/components/dashboard/IntroVideoOverlay';
+
+// First-play intro video for this section. Lives under
+// apps/web/public/parent/willandtrust/ — keep this constant in sync if the
+// asset is ever renamed. Mirrors the module-scope constant pattern used by
+// /letters, /occasions, /final-wishes, /health, /accounts.
+const WILLS_INTRO_VIDEO =
+  '/parent/willandtrust/Will & Trust Section Introduction_1080p_caption.mp4';
 import { AccountsVerificationGate } from '@/components/dashboard/AccountsUIComponents';
 import { MethodPickerModal, UploadModal, LocationModal, CustomDocumentModal, AudioInstructionModal } from '@/components/dashboard/documents/DocumentModals';
 import { Mic } from 'lucide-react';
@@ -217,9 +224,9 @@ export default function WillsAndDocumentsPage() {
     <div className="max-w-5xl mx-auto px-6 py-10 font-inter">
       {/* Intro Video Overlay */}
       {showIntro && (
-        <IntroVideoOverlay 
-          onDismiss={handleDismissIntro} 
-          videoUrl="/parent/willandtrust/Introduction to Will & Trust_720p.mp4" 
+        <IntroVideoOverlay
+          onDismiss={handleDismissIntro}
+          videoUrl={WILLS_INTRO_VIDEO}
         />
       )}
 
@@ -279,14 +286,31 @@ export default function WillsAndDocumentsPage() {
         />
       )}
 
-      <div className="flex items-center gap-3 mb-2">
-        <div className="bg-gold/10 px-3 py-1 rounded-full flex items-center gap-2">
-          <Lock size={12} className="text-gold" />
-          <span className="text-[10px] font-bold text-gold uppercase tracking-widest">Encrypted Vault</span>
+      {/* Flex wrapper so the "Watch intro" replay button sits at the top-right
+          alongside the encrypted-vault chip + title block, without disrupting
+          the existing mb-12 spacing below the subtitle. */}
+      <div className="flex items-start justify-between gap-4 mb-12">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="bg-gold/10 px-3 py-1 rounded-full flex items-center gap-2">
+              <Lock size={12} className="text-gold" />
+              <span className="text-[10px] font-bold text-gold uppercase tracking-widest">Encrypted Vault</span>
+            </div>
+          </div>
+          <h1 className="font-playfair text-3xl font-black text-navy mb-2">Will & Trust & Important Documents</h1>
+          <p className="text-zinc-500">Organized for the people who need them.</p>
         </div>
+        {/* Replay affordance — re-opens the intro overlay without touching
+            the dismissal flag. */}
+        <button
+          type="button"
+          onClick={() => setShowIntro(true)}
+          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-navy border border-zinc-200 hover:border-zinc-300 bg-white px-3 py-1.5 rounded-full transition-colors"
+        >
+          <Play className="w-3 h-3 fill-current" />
+          Watch intro
+        </button>
       </div>
-      <h1 className="font-playfair text-3xl font-black text-navy mb-2">Will & Trust & Important Documents</h1>
-      <p className="text-zinc-500 mb-12">Organized for the people who need them.</p>
 
       {loading ? (
         <div className="py-20 text-center text-zinc-400">Loading documents...</div>

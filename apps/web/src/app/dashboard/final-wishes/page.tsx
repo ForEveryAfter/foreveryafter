@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   Camera,
   Image,
+  Play,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -25,6 +26,15 @@ import {
   type FamilyMember,
 } from '@/lib/api';
 import Recorder from '@/components/dashboard/Recorder';
+import IntroVideoOverlay from '@/components/dashboard/IntroVideoOverlay';
+
+// First-play intro video for this section. Lives under
+// apps/web/public/parent/finalwishes/ — same `parent/<section>/` nesting as
+// the other section videos (willandtrust, specialoccassion, messagesforlovedones).
+// Keep this constant in sync if the asset is renamed.
+const FINAL_WISHES_INTRO_VIDEO =
+  '/parent/finalwishes/Final Wishes - Legacy Bridge Intro_1080p_caption.mp4';
+const FINAL_WISHES_INTRO_FLAG = 'final_wishes_intro_dismissed';
 
 // Notifees who would receive the released files anyway — they don't need to be
 // on the notify list. Matches the same definition used by the child overview
@@ -526,6 +536,43 @@ export default function FinalWishesPage() {
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const videoInputRef = useRef<HTMLInputElement>(null);
 
+  // First-visit intro video. Per-section flag (not the dashboard-root one) so
+  // landing on Final Wishes for the first time surfaces this video independently.
+  const [showIntro, setShowIntro] = useState(false);
+
+  // Check the per-section dismissal flag on mount. If never dismissed, show
+  // the overlay. A failed read leaves the overlay hidden (better to skip the
+  // video than to replay it after a previous dismissal).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const flags = await fetchWithAuth('/interview/flags', USER_ID);
+        const dismissed = Array.isArray(flags) && flags.some(
+          (f: any) => f.flag === FINAL_WISHES_INTRO_FLAG
+        );
+        if (!cancelled && !dismissed) setShowIntro(true);
+      } catch (err) {
+        console.error('Failed to check final-wishes intro flag:', err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Persist the dismissal so the video doesn't reappear on the next visit.
+  // Optimistically close first; the flag write is best-effort.
+  const handleDismissIntro = async () => {
+    setShowIntro(false);
+    try {
+      await fetchWithAuth('/interview/flags', USER_ID, {
+        method: 'POST',
+        body: JSON.stringify({ flag: FINAL_WISHES_INTRO_FLAG }),
+      });
+    } catch (err) {
+      console.error('Failed to save final-wishes intro flag:', err);
+    }
+  };
+
   // Parent's full family & friends roster. Drives BOTH the "currently on
   // notify" cards AND the "Pick from contacts" dropdown — derived from this
   // single list via the `notify` flag (no separate notifyList state).
@@ -718,22 +765,56 @@ export default function FinalWishesPage() {
   // ── Render ──────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
-      </div>
+      <>
+        {/* Render the intro overlay even during the data-load spinner state —
+            the video is independent of the wishes/family fetches and shouldn't
+            sit behind them. */}
+        {showIntro && (
+          <IntroVideoOverlay
+            videoUrl={FINAL_WISHES_INTRO_VIDEO}
+            onDismiss={handleDismissIntro}
+          />
+        )}
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+        </div>
+      </>
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in duration-500 pb-20">
-      {/* Header */}
-      <header className="space-y-2">
-        <h1 className="font-playfair text-4xl font-black text-navy">
-          Final Wishes
-        </h1>
-        <p className="text-zinc-500">
-          Your service, your way. Leave no doubt about what matters most.
-        </p>
+      {/* First-visit intro video — overlays the page until dismissed. The
+          dismissal is persisted via /interview/flags so it never replays for
+          the same user. */}
+      {showIntro && (
+        <IntroVideoOverlay
+          videoUrl={FINAL_WISHES_INTRO_VIDEO}
+          onDismiss={handleDismissIntro}
+        />
+      )}
+      {/* Header
+          Flex row so the "Watch intro" replay button sits at the top-right
+          without disrupting the title/subtitle stack. */}
+      <header className="flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="font-playfair text-4xl font-black text-navy">
+            Final Wishes
+          </h1>
+          <p className="text-zinc-500">
+            Your service, your way. Leave no doubt about what matters most.
+          </p>
+        </div>
+        {/* Replay affordance — re-opens the intro overlay without touching
+            the dismissal flag. */}
+        <button
+          type="button"
+          onClick={() => setShowIntro(true)}
+          className="shrink-0 inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 hover:text-navy border border-zinc-200 hover:border-zinc-300 bg-white px-3 py-1.5 rounded-full transition-colors"
+        >
+          <Play className="w-3 h-3 fill-current" />
+          Watch intro
+        </button>
       </header>
 
       {/* Save indicator — sticky top-right */}
