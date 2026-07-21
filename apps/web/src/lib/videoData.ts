@@ -26,19 +26,21 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'v1', title: 'Welcome to ForEveryAfter', subtitle: 'An introduction to your guide',
         category: 'Getting started', duration: '1:30',
         gradientFrom: '#4A5E52', gradientTo: '#2D6A4F',
-        videoUrl: '/parent/Legacy Bridge_ Parent Intro_1080p_caption.mp4',
+        videoUrl: '/learning/Learning Welcome Video_ ForEveryAfter_1080p_caption.mp4',
         script: `Welcome to ForEveryAfter. This is a space built just for you — a private, guided way to organize the stories, information, and wishes your family will one day need.\n\nThink of it as a living letter to the people you love most. Not a legal document. Not a chore. Just a gentle, structured way to make sure nothing important is lost.\n\nYou'll work at your own pace. There are no deadlines, no pressure, and everything stays private until you say otherwise. Your guide is encrypted and locked — only you control who sees what, and when.\n\nIn this guide, you'll find sections for your life story, your accounts and important locations, health information, final wishes, letters to loved ones, and even messages for special occasions.\n\nLet's get started. Your family will thank you.`,
       },
       {
         id: 'v2', title: 'Who receives your guide', subtitle: 'Understanding access and recipients',
         category: 'Getting started', duration: '2:00',
         gradientFrom: '#607A6A', gradientTo: '#7A9488',
+        videoUrl: '/learning/Learning Who Receives Your Guide_1080p_caption.mp4',
         script: `Your guide is for the people you trust most. When you set it up, you chose recipients — the family members or friends who will receive access to your guide when the time comes.\n\nRecipients cannot see your guide right now. They only know it exists. They'll receive access according to the rules you set — typically after a series of missed check-ins.\n\nYou can add or remove recipients at any time from your Family & Friends settings. You can also change who gets notified and who is designated as your primary contact.\n\nThe important thing to remember: nothing is shared until you allow it. You are always in control.`,
       },
       {
         id: 'v3', title: 'Who is your Trusted Representative', subtitle: 'The role of your first contact',
         category: 'Getting started', duration: '2:15',
         gradientFrom: '#3D5A4A', gradientTo: '#4A6E5A',
+        videoUrl: '/learning/Learning Who Is Your Trusted Individual_1080p_caption.mp4',
         script: `Your Trusted Representative is the person you've designated as your primary point of contact. In most families, this is an adult child or a spouse.\n\nTheir role is simple: when you can no longer respond to check-ins, your Trusted Representative is the first person we notify. They coordinate with the rest of your recipients to ensure everyone has what they need.\n\nYour Trusted Representative can also request early access in certain situations — for example, if you become incapacitated. But they cannot view your guide without your permission under normal circumstances.\n\nYou can change your Trusted Representative at any time in Settings.`,
       },
       {
@@ -57,18 +59,21 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'v5', title: 'Your life story — how the interview works', subtitle: 'Recording what matters most',
         category: 'Your guide', duration: '3:00',
         gradientFrom: '#4A5E52', gradientTo: '#607A6A',
+        videoUrl: '/learning/Learning How to Tell Your Life Story_1080p_caption.mp4',
         script: `Your life story is the heart of your guide. This section uses gentle, guided prompts to help you capture the moments, values, and memories that define who you are.\n\nYou can type your answers, record your voice, or simply jot down notes. There's no right or wrong way to do this. Some people write paragraphs. Some people write a sentence. Both are perfect.\n\nThe prompts cover your childhood, your career, your marriage, your children, your values, and the lessons you'd most want to pass on. You can skip any question and come back to it later.\n\nYour family will treasure this more than you know.`,
       },
       {
         id: 'v6', title: 'The obituary — what your family receives', subtitle: 'A prepared tribute',
         category: 'Your guide', duration: '1:45',
         gradientFrom: '#607A6A', gradientTo: '#7A9488',
+        videoUrl: '/learning/Learning Obituary Build_1080p_caption.mp4',
         script: `One of the most stressful tasks a family faces is writing an obituary under time pressure. ForEveryAfter takes care of this for you.\n\nBased on the stories and information you provide in your life story section, we can generate a draft obituary that captures your voice, your achievements, and your personality.\n\nYour family can use it as-is, or edit it to add their own reflections. Either way, they won't be starting from a blank page during the hardest week of their lives.`,
       },
       {
         id: 'v7', title: 'How your guide stays locked', subtitle: 'Security and privacy',
         category: 'Access & privacy', duration: '1:45',
         gradientFrom: '#3D5247', gradientTo: '#4A5E52',
+        videoUrl: '/learning/Learning How the Guide Stays Locked_1080p_caption.mp4',
         script: `Your guide is encrypted from the moment you create it. No one at ForEveryAfter can read your information. Not our engineers, not our support team, no one.\n\nYour guide is locked and will remain locked as long as you continue responding to check-ins. If you stop responding — and only then — your Trusted Representative is notified and the release process begins.\n\nYou can also manually unlock specific sections for specific people at any time. For example, you might want your spouse to see your health information now, but keep your letters private until later.\n\nYou're always in control.`,
       },
       {
@@ -80,7 +85,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
     ],
   },
   {
-    title: 'Getting started',
+    title: 'Administrative details',
     role: 'parent',
     videos: [
       {
@@ -93,6 +98,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'v15', title: 'How to generate an obituary', subtitle: 'Creating a tribute',
         category: 'For your family', duration: '1:30',
         gradientFrom: '#607A6A', gradientTo: '#7A9488',
+        videoUrl: '/learning/Learning Obituary Build_1080p_caption.mp4',
         script: `When the guide is released, recipients can generate a draft obituary from the Dashboard. This obituary is built from the stories, milestones, and personal details your loved one shared in their Life Story section.\n\nThe draft is designed to be a starting point — warm, personal, and accurate. You can edit it, add to it, or use it as-is.\n\nThis feature exists because we know that writing an obituary during grief is one of the hardest things a family has to do. Your loved one wanted to make it easier for you.`,
       },
       {
@@ -113,12 +119,14 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'cv1', title: 'Welcome to ForEveryAfter', subtitle: "An introduction to your parent's guide",
         category: 'Getting started', duration: '2:30',
         gradientFrom: '#1E3A5F', gradientTo: '#2D5A8F',
+        videoUrl: '/learning/Learning Welcome Video_ ForEveryAfter_1080p_caption.mp4',
         script: `Welcome to ForEveryAfter. Someone in your family — most likely a parent — has set up a guide to make sure nothing important is lost when the time comes.\n\nThis isn't something to worry about. It's actually the opposite — it's a gift. Your parent has taken the time to organize their stories, their wishes, their accounts, and their messages to you.\n\nRight now, you can't see any of that. The guide is locked and private. Your role is simply to be aware that it exists, and to know that when the time comes, everything you need will be waiting for you.\n\nIn the meantime, you can explore this dashboard to understand what the guide contains, what your role is, and how the system works.`,
       },
       {
         id: 'cv2', title: 'Who receives the guide', subtitle: 'Understanding your role',
         category: 'Getting started', duration: '2:00',
         gradientFrom: '#2D5A8F', gradientTo: '#3D6A9F',
+        videoUrl: '/learning/Learning Who Receives Your Guide_1080p_caption.mp4',
         script: `Your parent has designated specific people to receive their guide. You're one of them.\n\nAs a recipient, you'll be notified when the guide is released. You'll have access to everything your parent chose to share — their stories, their accounts, their wishes, and their personal messages.\n\nIf you've been designated as the Trusted Representative, you have an additional responsibility: you're the first point of contact when your parent stops responding to check-ins. We'll guide you through everything when the time comes.`,
       },
       {
@@ -137,6 +145,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'cv10', title: 'Your role as Trusted Representative', subtitle: 'What it means and what to expect',
         category: 'Access & privacy', duration: '1:45',
         gradientFrom: '#1E3A5F', gradientTo: '#2D5A8F',
+        videoUrl: '/learning/Learning Who Is Your Trusted Individual_1080p_caption.mp4',
         script: `As Trusted Representative, you're the first person ForEveryAfter contacts when your parent stops responding to check-ins.\n\nThis doesn't mean anything has happened. It simply means the system couldn't reach them, and it needs a human to help figure out what's going on.\n\nYou might find that your parent simply forgot, or changed their phone number, or is on vacation without service. In those cases, you can help extend the check-in window.\n\nBut if something has happened, you'll be the one to initiate the guide release process. We'll walk you through every step.`,
       },
       {
@@ -173,6 +182,7 @@ export const VIDEO_CLUSTERS: VideoCluster[] = [
         id: 'cv15', title: 'How to generate an obituary', subtitle: 'Creating a tribute from the guide',
         category: 'When the time comes', duration: '1:30',
         gradientFrom: '#2D5A8F', gradientTo: '#3D6A9F',
+        videoUrl: '/learning/Learning Obituary Build_1080p_caption.mp4',
         script: `Once the guide is released, you can generate an obituary draft from the dashboard. This draft is built from your parent's life story — their milestones, their career, their family, their passions.\n\nThe draft is warm, personal, and accurate. You can edit it, add your own reflections, or use it as-is.\n\nMany families tell us this was the most helpful feature during their most difficult week. Your parent knew this would be hard, and they wanted to make it easier.`,
       },
       {

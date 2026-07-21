@@ -9,11 +9,6 @@ function getWatchedVideos(): Record<string, boolean> {
   try { return JSON.parse(localStorage.getItem('lb_video_progress') || '{}'); } catch { return {}; }
 }
 
-function setWatchedVideo(id: string) {
-  const current = getWatchedVideos();
-  current[id] = true;
-  localStorage.setItem('lb_video_progress', JSON.stringify(current));
-}
 
 // ── Video Card ──
 export function VideoCard({ video, onClick }: { video: VideoItem; onClick: () => void }) {
@@ -58,17 +53,6 @@ export function VideoCard({ video, onClick }: { video: VideoItem; onClick: () =>
 
 // ── Video Modal ──
 export function VideoModal({ video, onClose, onOpenChat }: { video: VideoItem; onClose: () => void; onOpenChat?: (topic: string) => void }) {
-  const [watched, setWatched] = useState(false);
-
-  useEffect(() => {
-    setWatched(!!getWatchedVideos()[video.id]);
-  }, [video.id]);
-
-  const handleMarkWatched = () => {
-    setWatchedVideo(video.id);
-    setWatched(true);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6" onClick={onClose}>
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
@@ -133,24 +117,6 @@ export function VideoModal({ video, onClose, onOpenChat }: { video: VideoItem; o
           )}
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-zinc-100 p-5 flex items-center justify-between shrink-0">
-          <button onClick={onClose} className="text-sm text-zinc-400 hover:text-navy font-medium">
-            Close
-          </button>
-          <button
-            onClick={handleMarkWatched}
-            disabled={watched}
-            className={`text-sm font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2 ${
-              watched
-                ? 'bg-[#4A5E52]/10 text-[#4A5E52]'
-                : 'bg-[#4A5E52] text-white hover:bg-[#4A5E52]/90'
-            }`}
-          >
-            <Check className="w-4 h-4" />
-            {watched ? 'Watched' : 'Mark as watched'}
-          </button>
-        </div>
       </div>
     </div>
   );
