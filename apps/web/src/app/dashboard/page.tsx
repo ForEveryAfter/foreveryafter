@@ -44,7 +44,7 @@ export default function DashboardPage() {
   // Read-only / "free trial" mode is enforced at the layout via <fieldset disabled>
   // when user.subscriptionActive is false — applies to children who haven't paid.
   const { user } = useAuth();
-  const userId = user?.userId || '';
+  const userGuid = user?.guid || '';
   const firstName = user?.name?.trim().split(/\s+/)[0] || 'there';
   const [tooltip, setTooltip] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(false);
@@ -71,9 +71,9 @@ export default function DashboardPage() {
   // so the flag is stored against the real logged-in user — no per-browser demo
   // override needed.
   useEffect(() => {
-    if (!userId) return;
+    if (!userGuid) return;
     let cancelled = false;
-    fetchWithAuth('/interview/flags', userId)
+    fetchWithAuth('/interview/flags', userGuid)
       .then((flags: any) => {
         if (cancelled) return;
         const dismissed = Array.isArray(flags) && flags.some((f: any) => f.flag === 'intro_video_dismissed');
@@ -81,13 +81,13 @@ export default function DashboardPage() {
       })
       .catch(() => { /* read failure — leave the overlay hidden */ });
     return () => { cancelled = true; };
-  }, [userId]);
+  }, [userGuid]);
 
   const handleDismissIntro = async () => {
     setShowIntro(false);
-    if (!userId) return;
+    if (!userGuid) return;
     try {
-      await fetchWithAuth('/interview/flags', userId, {
+      await fetchWithAuth('/interview/flags', userGuid, {
         method: 'POST',
         body: JSON.stringify({ flag: 'intro_video_dismissed' })
       });

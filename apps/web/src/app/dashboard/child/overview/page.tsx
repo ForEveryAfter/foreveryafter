@@ -970,15 +970,15 @@ export default function ChildDashboard() {
   // button visibility — non-TI family members never see it.
   const isAnyTI = relationships.some((r) => r.roles.includes('trusted_rep'));
 
-  // Check the dismissal flag once on mount (after userId is available). A
+  // Check the dismissal flag once on mount (after the public guid is available). A
   // failed read leaves the flag treated as "dismissed" — better to skip the
   // video than to replay it after a previous dismissal we couldn't read.
   useEffect(() => {
-    if (!user?.userId) return;
+    if (!user?.guid) return;
     let cancelled = false;
     (async () => {
       try {
-        const flags = await fetchWithAuth('/interview/flags', user.userId);
+        const flags = await fetchWithAuth('/interview/flags', user.guid);
         const dismissed = Array.isArray(flags) && flags.some(
           (f: any) => f.flag === TRUSTED_REP_INTRO_FLAG
         );
@@ -995,7 +995,7 @@ export default function ChildDashboard() {
       }
     })();
     return () => { cancelled = true; };
-  }, [user?.userId]);
+  }, [user?.guid]);
 
   // Auto-surface the overlay the first time we know both (a) the user is a TI
   // and (b) the flag isn't dismissed. Gated on introFlagChecked so we don't
@@ -1012,9 +1012,9 @@ export default function ChildDashboard() {
   const handleDismissIntro = async () => {
     setShowIntro(false);
     setIntroDismissedOnServer(true);
-    if (!user?.userId) return;
+    if (!user?.guid) return;
     try {
-      await fetchWithAuth('/interview/flags', user.userId, {
+      await fetchWithAuth('/interview/flags', user.guid, {
         method: 'POST',
         body: JSON.stringify({ flag: TRUSTED_REP_INTRO_FLAG }),
       });

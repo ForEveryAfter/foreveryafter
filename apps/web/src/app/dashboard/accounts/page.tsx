@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Play,
+  Shield,
 } from 'lucide-react';
 import {
   AccountsAudioPrompt,

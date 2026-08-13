@@ -361,7 +361,7 @@ export default function PaymentsPage() {
             {pmError ? (
               <p className="text-sm text-red-600">
                 Couldn’t load card info — {pmError}.{' '}
-                <button onClick={load} className="font-bold underline">Try again</button>
+                <button onClick={() => void load()} className="font-bold underline">Try again</button>
               </p>
             ) : pm === null ? (
               <p className="text-sm text-zinc-400 inline-flex items-center gap-2">
@@ -583,7 +583,7 @@ export default function PaymentsPage() {
         ) : subError ? (
           <p className="py-6 text-sm text-zinc-400">
             Couldn’t load your plan right now.{' '}
-            <button onClick={load} className="font-bold text-[#4A5E52] hover:underline">Try again</button>
+            <button onClick={() => void load()} className="font-bold text-[#4A5E52] hover:underline">Try again</button>
           </p>
         ) : !countdown || !nextPaymentDate ? (
           <p className="py-6 text-sm text-zinc-400">No active subscription on file.</p>
@@ -636,7 +636,7 @@ export default function PaymentsPage() {
         ) : plansError ? (
           <p className="py-6 text-sm text-zinc-400">
             Couldn’t load plans right now.{' '}
-            <button onClick={load} className="font-bold text-[#4A5E52] hover:underline">Try again</button>
+            <button onClick={() => void load()} className="font-bold text-[#4A5E52] hover:underline">Try again</button>
           </p>
         ) : plans.length === 0 ? (
           <p className="py-6 text-sm text-zinc-400">No plans available.</p>
